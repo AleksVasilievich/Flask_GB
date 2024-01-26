@@ -17,7 +17,12 @@ def init_db():
     db.create_all()
     print('OK')
 
-
+@app.cli.command("add-john")
+def add_user():
+    user = User(username='john3', email='john3@example.com')
+    db.session.add(user)
+    db.session.commit()
+    print('John add in DB!')
 
 if __name__ == '__main__':
     app.run(debug=True)
