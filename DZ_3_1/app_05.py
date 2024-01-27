@@ -43,7 +43,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         return redirect('/success')
-    return render_template('register2.html', form=form)
+    return render_template('register.html', form=form)
 
 @app.route('/success')
 def success():

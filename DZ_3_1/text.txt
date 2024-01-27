@@ -1,39 +1,5 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_bcrypt import Bcrypt
+Задание к семинару 3.
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    имя = db.Column(db.String(50), nullable=False)
-    фамилия = db.Column(db.String(50), nullable=False)
-    адрес_электронной_почты = db.Column(db.String(120), unique=True, nullable=False)
-    пароль = db.Column(db.String(60), nullable=False)
-
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if request.method == 'POST':
-        имя = request.form['имя']
-        фамилия = request.form['фамилия']
-        адрес_электронной_почты = request.form['адрес_электронной_почты']
-        пароль = bcrypt.generate_password_hash(request.form['пароль']).decode('utf-8')
-
-        новый_пользователь = User(имя=имя, фамилия=фамилия, адрес_электронной_почты=адрес_электронной_почты, пароль=пароль)
-        db.session.add(новый_пользователь)
-        db.session.commit()
-
-        return 'Пользователь успешно зарегистрирован!'
-
-    return render_template('register.html')
-
-
-В этом примере мы определяем модель пользователя (User) с необходимыми полями.
-В функции регистрации (register), мы получаем данные из формы,
-хешируем пароль с помощью Flask-Bcrypt и сохраняем пользователя в базе данных.
-
-Обратите внимание, что перед использованием Flask-Bcrypt,
-Вам нужно установить его с помощью команды `pip install flask_bcrypt`.
+Создать форму для регистрации пользователей на сайте.
+Форма должна содержать поля "Имя", "Фамилия", "Email", "Пароль" и кнопку "Зарегистрироваться".
+При отправке формы данные должны сохраняться в базе данных, а пароль должен быть зашифрован.
