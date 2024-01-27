@@ -37,12 +37,14 @@ def register():
         )
         db.session.add(user)
         db.session.commit()
-        return redirect(url_for('success'))
-    return render_template('register.html', form=form)
+        return redirect(url_for('/success'))
+    return render_template('register2.html', form=form)
 
 @app.route('/success')
 def success():
     return "Регистрация прошла успешно!"
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    with app.app_context():
+        db.create_all()
+        app.run(debug=True)
