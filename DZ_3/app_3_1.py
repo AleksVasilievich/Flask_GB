@@ -1,7 +1,7 @@
 
 from flask import Flask
 
-from DZ_3.models_3 import db, User
+from DZ_3.models_3_1 import db, User
 
 
 app = Flask(__name__)
@@ -19,7 +19,7 @@ def init_db():
 
 @app.cli.command("add-john")
 def add_user():
-    user = User(username='john3', email='john3@example.com')
+    user = User(username='john4', email='john4@example.com')
     db.session.add(user)
     db.session.commit()
     print('John add in DB!')
