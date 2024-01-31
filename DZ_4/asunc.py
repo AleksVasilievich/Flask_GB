@@ -9,7 +9,8 @@ async def download_image(url):
         async with aiohttp.ClientSession() as session:
             async with session.get(url) as response:
                 if response.status == 200:
-                    filename = "DZ_4/foto/" + url.split('/')[-1]
+                    # filename = "DZ_4/foto/" + url.split('/')[-1]
+                    filename = "foto/" + url.split('/')[-1]
                     with open(filename, 'wb') as f:
                         f.write(await response.read())
                     print(f"Изображение {filename} успешно загружено")
@@ -23,7 +24,8 @@ async def main_asunc(urls):
     tasks = [download_image(url) for url in urls]
     await asyncio.gather(*tasks)
     end_time = time.time()
-    print(f"Общее время выполнения программы: {end_time - start_time} секунд")
+    print(f"Общее время выполнения, асинхронная реализация программы: {end_time - start_time} секунд")
+    print()
 
 if __name__ == "__main__":
     urls = sys.argv[1:]

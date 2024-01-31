@@ -9,7 +9,8 @@ def download_image(url):
     try:
         response = requests.get(url)
         if response.status_code == 200:
-            filename = "DZ_4/foto/" + url.split('/')[-1]
+            # filename = "DZ_4/foto/" + url.split('/')[-1]
+            filename = "foto/" + url.split('/')[-1]
             with open(filename, 'wb') as f:
                 f.write(response.content)
             print(f"Изображение {filename} успешно загружено")
@@ -31,7 +32,8 @@ def main_potoc(urls):
         t.join()
 
     end_time = time.time()
-    print(f"Общее время выполнения программы: {end_time - start_time} секунд")
+    print(f"Общее время выполнения, многопоточная реализация программы: {end_time - start_time} секунд")
+    print()
 
 
 if __name__ == "__main__":

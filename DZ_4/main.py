@@ -1,4 +1,8 @@
 import DZ_4.sunh
+import DZ_4.potoc
+import DZ_4.proc
+import DZ_4.asunc
+import asyncio
 
 
 if __name__ == '__main__':
@@ -11,3 +15,18 @@ if __name__ == '__main__':
         print("Укажите список URL-адресов через аргументы командной строки")
     else:
         DZ_4.sunh.main_sunh(urls)
+
+    if not urls:
+        print("Укажите список URL-адресов через аргументы командной строки")
+    else:
+        DZ_4.potoc.main_potoc(urls)
+
+    if not urls:
+        print("Укажите список URL-адресов через аргументы командной строки")
+    else:
+        DZ_4.proc.main_proc(urls)
+
+    if not urls:
+        print("Укажите список URL-адресов через аргументы командной строки")
+    else:
+        asyncio.run(DZ_4.asunc.main_asunc(urls))

@@ -21,7 +21,8 @@ def main_sunh(urls):
     for url in urls:
         download_image(url)
     end_time = time.time()
-    print(f"Общее время выполнения программы: {end_time - start_time} секунд")
+    print(f"Общее время выполнения, синхронная реализация программы: {end_time - start_time} секунд")
+    print()
 
 if __name__ == "__main__":
     urls = sys.argv[1:]
