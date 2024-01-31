@@ -6,7 +6,8 @@ def download_image(url):
     try:
         response = requests.get(url)
         if response.status_code == 200:
-            filename = "DZ_4/foto/" + url.split('/')[-1]
+            # filename = "DZ_4/foto/" + url.split('/')[-1]
+            filename = "foto/" + url.split('/')[-1]
             with open(filename, 'wb') as f:
                 f.write(response.content)
             print(f"Изображение {filename} успешно загружено")
