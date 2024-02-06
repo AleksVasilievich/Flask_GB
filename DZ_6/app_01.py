@@ -1,10 +1,14 @@
 import datetime
 from typing import List
+
+
 import databases
 import pandas as pd
 import sqlalchemy
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy.ext.declarative import declarative_base
 from pydantic import BaseModel, Field
 from fastapi.templating import Jinja2Templates
 from sqlalchemy import DATE, Float
@@ -52,6 +56,7 @@ metadata.create_all(engine)
 app = FastAPI()
 templates = Jinja2Templates(directory="./DZ_6/templates")
 
+
 class User(BaseModel):
     id: int
     name: str = Field(max_length=40)
@@ -67,39 +72,40 @@ class UserIn(BaseModel):
 
 
 
-class Goods(BaseModel):
-    id: int
-    name: str = Field(max_length=40)
-    goods_text: str = Field(max_length=225)
-    price: Float = Field(max_length=40)
+# class Goods(BaseModel):
+#     __tablename__ = "goods"
+#     id: int
+#     name: str = Field(max_length=40)
+#     goods_text: str = Field(max_length=225)
+#     price: Float = Field(max_length=40)
+#
+#
+# class GoodsIn(BaseModel):
+#     __tablename__ = "goods"
+#     name: str = Field(max_length=40)
+#     goods_text: str = Field(max_length=225)
+#     price: Float = Field(max_length=40)
+# #
+# #
+# #
+# # class Order(BaseModel):
+# #     id: int
+# #     user_id: int
+# #     goods_id: int
+# #     order_data: datetime.datetime
+# #     status: str = Field(max_length=40)
+# #
+# # class OrderIn(BaseModel):
+# #     user_id: int
+# #     goods_id: int
+# #     order_data: datetime.datetime
+# #     status: str = Field(max_length=40)
 
+# @app.get("/goods/", response_model=List[Goods])
+# async def read_user():
+#     query = goods.select()
+#     return await database.fetch_all(query)
 
-class GoodsIn(BaseModel):
-    name: str = Field(max_length=40)
-    goods_text: str = Field(max_length=225)
-    price: Float = Field(max_length=40)
-
-
-
-class Order(BaseModel):
-    id: int
-    user_id: int
-    goods_id: int
-    order_data: datetime.datetime
-    status: str = Field(max_length=40)
-
-class OrderIn(BaseModel):
-    user_id: int
-    goods_id: int
-    order_data: datetime.datetime
-    status: str = Field(max_length=40)
-
-
-@app.post("/users/", response_model=User)
-async def create_user(user: UserIn):
-    query = users.insert().values(**user.model_dump())
-    record_id = await database.execute(query)
-    return {**user.model_dump(), "id": record_id}
 
 
 @app.get("/users/", response_model=List[User])
@@ -110,9 +116,19 @@ async def read_user():
 
 @app.get("/users/{user_id}", response_model=User)
 async def read_user(user_id: int):
+
+    # query = users.select()
+    # user_table = pd.DataFrame([user for user in await database.fetch_all(query)]).to_html()
+    # return templates.TemplateResponse("users.html", {"request": request, "table": user_table})
     query = users.select().where(users.c.id == user_id)
     return await database.fetch_one(query)
 
+
+@app.post("/users/", response_model=User)
+async def create_user(user: UserIn):
+    query = users.insert().values(**user.model_dump())
+    record_id = await database.execute(query)
+    return {**user.model_dump(), "id": record_id}
 
 @app.put("/users/{user_id}", response_model=User)
 async def update_user(user_id: int, new_user: UserIn):
